@@ -27,7 +27,10 @@ on:
 
 jobs:
   build-all:
-    runs-on: ${{ inputs.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: ["ubuntu-22.04", "windows-latest"]
 
     steps:
       - name: Check out repository code
@@ -110,7 +113,8 @@ jobs:
           make --version
           file $(which make)
 
-      - name: Setup C API build
+      - name: Setup C API build Ubuntu
+        if: ${{ !startsWith(matrix.os, 'windows') }}
         run: |
           mkdir -p build
           cd build
@@ -118,10 +122,31 @@ jobs:
           # see https://github.com/conan-io/conan/issues/4322
           cmake -DPython3_EXECUTABLE=`which python` -DCMAKE_C_COMPILER=gcc ..
 
-      - name: Build C API
+      - name: Setup C API build Windows
+        if: ${{ startsWith(matrix.os, 'windows') }}
+        run: |
+          mkdir -p build
+          cd build
+          # specify C compiler as conan could not find it automatically
+          # see https://github.com/conan-io/conan/issues/4322
+          cmake -DPython3_EXECUTABLE=`which python` -DCMAKE_C_COMPILER=gcc -DGIT=OFF ..
+
+      - name: Build C API Ubuntu
+        if: ${{ !startsWith(matrix.os, 'windows') }}
         working-directory: ./build
         run: make
 
-      - name: Test C API
+      - name: Build C Api Windows
+        if: ${{ startsWith(matrix.os, 'windows') }}
+        working-directory: ./build
+        run: cmake --build . --config Release
+
+      - name: Test C API Ubuntu
+        if: ${{ !startsWith(matrix.os, 'windows') }}
         working-directory: ./build
         run: make check
+
+      - name: Test C API Windows
+        if: ${{ startsWith(matrix.os, 'windows') }}
+        working-directory: ./build
+        run:  cmake --build . --target check --config Release
