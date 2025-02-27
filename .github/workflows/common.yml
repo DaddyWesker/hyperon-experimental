@@ -48,10 +48,22 @@ jobs:
           cargo check
           cargo build
 
-      - name: Test Rust library
+      - name: Test Rust library Ubuntu
+        if: ${{ !startsWith(matrix.os, 'windows') }}
         working-directory: ./lib
         run: |
           RUST_LOG=hyperon=debug cargo test
+
+      - name: Set RUST_LOG environment variable
+        if: ${{ startsWith(matrix.os, 'windows') }}
+        run: |
+          @set RUST_LOG=hyperon=debug
+
+      - name: Test Rust library Windows
+        if: ${{ startsWith(matrix.os, 'windows') }}
+        working-directory: ./lib
+        run: |
+          cargo test
 
       - name: Install cbindgen
         uses: actions-rs/cargo@v1.0.1
