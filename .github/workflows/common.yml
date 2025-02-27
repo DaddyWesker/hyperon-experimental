@@ -58,7 +58,7 @@ jobs:
         if: ${{ startsWith(matrix.os, 'windows') }}
         run: |
           chcp 65001 #set code page to utf-8
-          echo ("RUST_LOG=hyperon=debug" >> $env:GITHUB_ENV
+          echo ("RUST_LOG=hyperon=debug" >> $env:GITHUB_ENV)
           cargo test
 
       - name: Install cbindgen
