@@ -87,6 +87,7 @@ jobs:
           conan profile detect --force
 
       - name: Print environment
+        if: ${{ !startsWith(matrix.os, 'windows') }}
         run: |
           echo "uname -a"
           uname -a
