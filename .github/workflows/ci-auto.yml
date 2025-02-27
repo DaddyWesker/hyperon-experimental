@@ -9,8 +9,15 @@ on:
       - main
 
 jobs:
-  ci-auto:
-    uses: ./.github/workflows/common.yml
+  ci-auto-windows:
+    uses: ./.github/workflows/common-windows.yml
     with:
       python-version: "3.7"
+      os: "windows-latest"
+      cmake-version: "3.24.x"
+  ci-auto-ubuntu:
+    uses: ./.github/workflows/common-ubuntu.yml
+    with:
+      python-version: "3.7"
+      os: "ubuntu-22.04"
       cmake-version: "3.24.x"
