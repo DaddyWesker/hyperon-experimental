@@ -16,7 +16,7 @@ on:
         type: string
       os:
         description: "A container which is used to make a build"
-        default: "ubuntu-22.04"
+        default: "[\"ubuntu-22.04\", \"windows-latest\"]"
         required: false
         type: string
       cmake-version:
@@ -27,11 +27,8 @@ on:
 
 jobs:
   build-all:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: ["ubuntu-22.04", "windows-latest"]
-
+    runs-on: ${{ inputs.os }}
+    
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
