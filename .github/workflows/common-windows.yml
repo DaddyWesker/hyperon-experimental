@@ -4,10 +4,11 @@
 # provided by a third-party and are governed by separate terms of service,
 # privacy policy, and support documentation.
 
-name: common
+name: common-windows
 
 on:
   workflow_call:
+    inputs:
       os:
         description: "A container which is used to make a build"
         default: "windows-latest"

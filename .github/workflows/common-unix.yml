@@ -4,7 +4,7 @@
 # provided by a third-party and are governed by separate terms of service,
 # privacy policy, and support documentation.
 
-name: common
+name: common-unix
 
 on:
   workflow_call:
