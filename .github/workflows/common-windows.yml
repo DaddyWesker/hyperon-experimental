@@ -25,7 +25,7 @@ inputs:
 
 jobs:
   build-all:
-#    runs-on: "windows-latest"
+    runs-on: ${{ inputs.os }}
 
     steps:
       - name: Test Rust library
