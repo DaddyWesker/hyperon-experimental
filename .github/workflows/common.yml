@@ -77,12 +77,12 @@ jobs:
 
       - name: Choose OS
         if: ${{ startsWith(inputs.os, 'windows') }}
-        uses: ./.github/workflows/common-windows.yml
+        uses: './.github/workflows/common-windows.yml'
         with:
           os: "windows-latest"
 
       - name: Choose OS
         if: ${{ !startsWith(inputs.os, 'windows') }}
-        uses: common-unix.yml
+        uses: './.github/workflows/common-unix.yml'
         with:
           os: "ubuntu-22.04"
