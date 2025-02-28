@@ -72,7 +72,7 @@ jobs:
 
   run-windows:
     if: ${{ startsWith(inputs.os, 'windows') }}
-    uses: './.github/workflows/common-windows'
+    uses: './.github/workflows/common-windows.yml'
     with:
       python-version: "3.7"
       os: "windows-latest"
@@ -80,7 +80,7 @@ jobs:
 
   run-ubuntu:
     if: ${{ !startsWith(inputs.os, 'windows') }}
-    uses: './.github/workflows/common-unix'
+    uses: './.github/workflows/common-unix.yml'
     with:
       python-version: "3.7"
       os: "ubuntu-22.04"
