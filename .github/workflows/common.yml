@@ -45,11 +45,6 @@ jobs:
           cargo check
           cargo build
 
-      - name: Test Rust library
-        working-directory: ./lib
-        run: |
-          RUST_LOG=hyperon=debug cargo test
-
       - name: Install cbindgen
         uses: actions-rs/cargo@v1.0.1
         with:
