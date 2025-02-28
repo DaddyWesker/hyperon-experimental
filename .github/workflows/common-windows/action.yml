@@ -11,12 +11,13 @@ on:
     inputs:
       os:
         description: "A container which is used to make a build"
+        default: "windows-latest"
         required: false
         type: string
 
 jobs:
   build-all:
-    runs-on: ${{ inputs.os }}
+    runs-on: ${{ github.event.inputs.os }}
 
     steps:
       - name: Test Rust library
