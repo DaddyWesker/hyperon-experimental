@@ -71,6 +71,7 @@ jobs:
           conan profile detect --force
 
   run-windows:
+    needs: build-all
     if: ${{ startsWith(inputs.os, 'windows') }}
     uses: './.github/workflows/common-windows.yml'
     with:
@@ -79,6 +80,7 @@ jobs:
       cmake-version: "3.24.x"
 
   run-ubuntu:
+    needs: build-all
     if: ${{ !startsWith(inputs.os, 'windows') }}
     uses: './.github/workflows/common-unix.yml'
     with:
