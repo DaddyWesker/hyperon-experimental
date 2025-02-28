@@ -70,18 +70,18 @@ jobs:
         run: |
           conan profile detect --force
 
-      - name: Choose OS
-        if: ${{ startsWith(inputs.os, 'windows') }}
-        uses: './.github/workflows/common-windows'
-        with:
-          python-version: "3.7"
-          os: "windows-latest"
-          cmake-version: "3.24.x"
+  run-windows:
+    if: ${{ startsWith(inputs.os, 'windows') }}
+    uses: './.github/workflows/common-windows'
+    with:
+      python-version: "3.7"
+      os: "windows-latest"
+      cmake-version: "3.24.x"
 
-      - name: Choose OS
-        if: ${{ !startsWith(inputs.os, 'windows') }}
-        uses: './.github/workflows/common-unix'
-        with:
-          python-version: "3.7"
-          os: "ubuntu-22.04"
-          cmake-version: "3.24.x"
+  run-ubuntu:
+    if: ${{ !startsWith(inputs.os, 'windows') }}
+    uses: './.github/workflows/common-unix'
+    with:
+      python-version: "3.7"
+      os: "ubuntu-22.04"
+      cmake-version: "3.24.x"

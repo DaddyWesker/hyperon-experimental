@@ -4,7 +4,8 @@
 # provided by a third-party and are governed by separate terms of service,
 # privacy policy, and support documentation.
 
-name: common-windows
+name: common-unix
+
 
 inputs:
   python-version:
@@ -14,7 +15,7 @@ inputs:
     type: string
   os:
     description: "A container which is used to make a build"
-    default: "windows-latest"
+    default: "ubuntu-22.04"
     required: false
     type: string
   cmake-version:
@@ -25,46 +26,48 @@ inputs:
 
 jobs:
   build-all:
-    runs-on: "windows-latest"
+#    runs-on: "ubuntu-22.04"
 
     steps:
       - name: Test Rust library
         working-directory: ./lib
         run: |
-          chcp 65001 #set code page to utf-8
-          echo ("RUST_LOG=hyperon=debug" >> $env:GITHUB_ENV)
-          cargo test
+          RUST_LOG=hyperon=debug cargo test
 
       - name: Print environment
         run: |
-          echo "ver"
-          ver
+          echo "uname -a"
+          uname -a
           echo "rustc --version"
           rustc --version
           echo "cbindgen --version"
           cbindgen --version
           echo "python --version"
-          where python
+          which python
           python --version
           python -c "import platform; print(platform.platform())"
+          echo "python3 --version"
+          which python3
+          python3 --version
+          python3 -c "import platform; print(platform.platform())"
           echo "conan --version"
           conan --version
-#          conan_python=$( head -1 $(where conan) | cut -c 3- )
-#          echo "conan Python: $conan_python"
-#          echo -n "conan Python platform: "
-#          $conan_python -c "import platform; print(platform.platform())"
+          conan_python=$( head -1 $(which conan) | cut -c 3- )
+          echo "conan Python: $conan_python"
+          echo -n "conan Python platform: "
+          $conan_python -c "import platform; print(platform.platform())"
           echo "conan profile show"
           conan profile show
-#          echo "gcc --version"
-#          gcc --version
-#          echo "g++ --version"
-#          g++ --version
+          echo "gcc --version"
+          gcc --version
+          echo "g++ --version"
+          g++ --version
           echo "cmake --version"
           cmake --version
-#          file $(which cmake)
-#          echo "make --version"
-#          make --version
-#          file $(which make)
+          file $(which cmake)
+          echo "make --version"
+          make --version
+          file $(which make)
 
       - name: Setup C API build
         run: |
@@ -72,12 +75,12 @@ jobs:
           cd build
           # specify C compiler as conan could not find it automatically
           # see https://github.com/conan-io/conan/issues/4322
-          cmake -DPython3_EXECUTABLE=`which python` -DCMAKE_C_COMPILER=gcc -DGIT=OFF ..
+          cmake -DPython3_EXECUTABLE=`which python` -DCMAKE_C_COMPILER=gcc ..
 
-      - name: Build C Api
+      - name: Build C API
         working-directory: ./build
-        run: cmake --build . --config Release
+        run: cmake --build .
 
       - name: Test C API
         working-directory: ./build
-        run:  cmake --build . --target check --config Release
+        run: cmake --build . --target check
