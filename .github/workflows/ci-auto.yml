@@ -10,13 +10,13 @@ on:
 
 jobs:
   ci-auto-windows:
-    uses: ./.github/workflows/common-windows.yml
+    uses: ./.github/workflows/common.yml
     with:
       python-version: "3.7"
       os: "windows-latest"
       cmake-version: "3.24.x"
   ci-auto-ubuntu:
-    uses: ./.github/workflows/common-ubuntu.yml
+    uses: ./.github/workflows/common.yml
     with:
       python-version: "3.7"
       os: "ubuntu-22.04"
