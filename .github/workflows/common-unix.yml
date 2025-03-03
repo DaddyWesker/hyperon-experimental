@@ -33,6 +33,7 @@ jobs:
       - name: Print folder tree
         uses: jaywcjlove/github-action-folder-tree@v1.2.0
         with:
+          path: ./hyperon-experimental
           depth: 5
 
       - name: Test Rust library
