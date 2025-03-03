@@ -33,37 +33,37 @@ runs:
         cargo test
       shell: bash
 
-    - name: Print environment
-      run: |
-        echo "ver"
-        ver
-        echo "rustc --version"
-        rustc --version
-        echo "cbindgen --version"
-        cbindgen --version
-        echo "python --version"
-        where python
-        python --version
-        python -c "import platform; print(platform.platform())"
-        echo "conan --version"
-        conan --version
+#    - name: Print environment
+#      run: |
+#        echo "ver"
+#        ver
+#        echo "rustc --version"
+#        rustc --version
+#        echo "cbindgen --version"
+#        cbindgen --version
+#        echo "python --version"
+#        where python
+#        python --version
+#        python -c "import platform; print(platform.platform())"
+#        echo "conan --version"
+#        conan --version
 #        conan_python=$( head -1 $(where conan) | cut -c 3- )
 #        echo "conan Python: $conan_python"
 #        echo -n "conan Python platform: "
 #        $conan_python -c "import platform; print(platform.platform())"
-        echo "conan profile show"
-        conan profile show
+#        echo "conan profile show"
+#        conan profile show
 #        echo "gcc --version"
 #        gcc --version
 #        echo "g++ --version"
 #        g++ --version
-        echo "cmake --version"
-        cmake --version
+#        echo "cmake --version"
+#        cmake --version
 #        file $(which cmake)
 #        echo "make --version"
 #        make --version
 #        file $(which make)
-      shell: bash
+#      shell: bash
 
     - name: Setup C API build
       run: |
