@@ -6,7 +6,6 @@
 
 name: common-unix
 
-
 inputs:
   python-version:
     description: "A version of a python interpreter to use"
@@ -24,63 +23,123 @@ inputs:
     required: false
     type: string
 
-jobs:
-  build-all:
-    runs-on: "ubuntu-22.04"
+runs:
+  using: "composite"
+  steps:
+    - name: Test Rust library
+      run: RUST_LOG=hyperon=debug cargo test
+      shell: bash
 
-    steps:
-      - name: Test Rust library
-        working-directory: ./lib
-        run: |
-          RUST_LOG=hyperon=debug cargo test
+    - name: Print environment
+      run: |
+        echo "uname -a"
+        uname -a
+        echo "rustc --version"
+        rustc --version
+        echo "cbindgen --version"
+        cbindgen --version
+        echo "python --version"
+        which python
+        python --version
+        python -c "import platform; print(platform.platform())"
+        echo "python3 --version"
+        which python3
+        python3 --version
+        python3 -c "import platform; print(platform.platform())"
+        echo "conan --version"
+        conan --version
+        conan_python=$( head -1 $(which conan) | cut -c 3- )
+        echo "conan Python: $conan_python"
+        echo -n "conan Python platform: "
+        $conan_python -c "import platform; print(platform.platform())"
+        echo "conan profile show"
+        conan profile show
+        echo "gcc --version"
+        gcc --version
+        echo "g++ --version"
+        g++ --version
+        echo "cmake --version"
+        cmake --version
+        file $(which cmake)
+        echo "make --version"
+        make --version
+        file $(which make)
+      shell: bash
 
-      - name: Print environment
-        run: |
-          echo "uname -a"
-          uname -a
-          echo "rustc --version"
-          rustc --version
-          echo "cbindgen --version"
-          cbindgen --version
-          echo "python --version"
-          which python
-          python --version
-          python -c "import platform; print(platform.platform())"
-          echo "python3 --version"
-          which python3
-          python3 --version
-          python3 -c "import platform; print(platform.platform())"
-          echo "conan --version"
-          conan --version
-          conan_python=$( head -1 $(which conan) | cut -c 3- )
-          echo "conan Python: $conan_python"
-          echo -n "conan Python platform: "
-          $conan_python -c "import platform; print(platform.platform())"
-          echo "conan profile show"
-          conan profile show
-          echo "gcc --version"
-          gcc --version
-          echo "g++ --version"
-          g++ --version
-          echo "cmake --version"
-          cmake --version
-          file $(which cmake)
-          echo "make --version"
-          make --version
-          file $(which make)
+    - name: Setup C API build
+      run: |
+        mkdir -p build
+        cd build
+      # specify C compiler as conan could not find it automatically
+      # see https://github.com/conan-io/conan/issues/4322
+        cmake -DPython3_EXECUTABLE=`which python` -DCMAKE_C_COMPILER=gcc ..
+      shell: bash
 
-      - name: Setup C API build
-        run: |
-          mkdir -p build
-          cd build
-          # specify C compiler as conan could not find it automatically
-          # see https://github.com/conan-io/conan/issues/4322
-          cmake -DPython3_EXECUTABLE=`which python` -DCMAKE_C_COMPILER=gcc ..
+    - name: Build C API
+      working-directory: ./build
+      run: cmake --build .
+      shell: bash
 
-      - name: Build C API
-        working-directory: ./build
-        run: cmake --build .
+    - name: Test C API
+      working-directory: ./build
+      run: cmake --build . --target check
+      shell: bash
 
-      - name: Test C API
-        working-directory: ./build
-        run: cmake --build . --target check
+#runs:
+#  using: node12
+#  main:
+#    - name: Test Rust library
+#      working-directory: ./lib
+#      run: |
+#        RUST_LOG=hyperon=debug cargo test
+#
+#    - name: Print environment
+#      run: |
+#        echo "uname -a"
+#        uname -a
+#        echo "rustc --version"
+#        rustc --version
+#        echo "cbindgen --version"
+#        cbindgen --version
+#        echo "python --version"
+#        which python
+#        python --version
+#        python -c "import platform; print(platform.platform())"
+#        echo "python3 --version"
+#        which python3
+#        python3 --version
+#        python3 -c "import platform; print(platform.platform())"
+#        echo "conan --version"
+#        conan --version
+#        conan_python=$( head -1 $(which conan) | cut -c 3- )
+#        echo "conan Python: $conan_python"
+#        echo -n "conan Python platform: "
+#        $conan_python -c "import platform; print(platform.platform())"
+#        echo "conan profile show"
+#        conan profile show
+#        echo "gcc --version"
+#        gcc --version
+#        echo "g++ --version"
+#        g++ --version
+#        echo "cmake --version"
+#        cmake --version
+#        file $(which cmake)
+#        echo "make --version"
+#        make --version
+#        file $(which make)
+#
+#    - name: Setup C API build
+#      run: |
+#        mkdir -p build
+#        cd build
+#        # specify C compiler as conan could not find it automatically
+#        # see https://github.com/conan-io/conan/issues/4322
+#        cmake -DPython3_EXECUTABLE=`which python` -DCMAKE_C_COMPILER=gcc ..
+#
+#    - name: Build C API
+#      working-directory: ./build
+#      run: cmake --build .
+#
+#    - name: Test C API
+#      working-directory: ./build
+#      run: cmake --build . --target check
