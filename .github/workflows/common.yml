@@ -16,7 +16,7 @@ on:
         type: string
       os:
         description: "A container which is used to make a build"
-        default: "ubuntu-22.04"
+        default: "windows-latest"
         required: false
         type: string
       cmake-version:
@@ -36,19 +36,14 @@ jobs:
       - name: Install Rust stable
         uses: actions-rs/toolchain@v1.0.6
         with:
-            toolchain: stable
-            override: true
+          toolchain: stable
+          override: true
 
       - name: Build Rust library
         working-directory: ./lib
         run: |
           cargo check
           cargo build
-
-      - name: Test Rust library
-        working-directory: ./lib
-        run: |
-          RUST_LOG=hyperon=debug cargo test
 
       - name: Install cbindgen
         uses: actions-rs/cargo@v1.0.1
@@ -75,53 +70,27 @@ jobs:
         run: |
           conan profile detect --force
 
-      - name: Print environment
-        run: |
-          echo "uname -a"
-          uname -a
-          echo "rustc --version"
-          rustc --version
-          echo "cbindgen --version"
-          cbindgen --version
-          echo "python --version"
-          which python
-          python --version
-          python -c "import platform; print(platform.platform())"
-          echo "python3 --version"
-          which python3
-          python3 --version
-          python3 -c "import platform; print(platform.platform())"
-          echo "conan --version"
-          conan --version
-          conan_python=$( head -1 $(which conan) | cut -c 3- )
-          echo "conan Python: $conan_python"
-          echo -n "conan Python platform: "
-          $conan_python -c "import platform; print(platform.platform())"
-          echo "conan profile show"
-          conan profile show
-          echo "gcc --version"
-          gcc --version
-          echo "g++ --version"
-          g++ --version
-          echo "cmake --version"
-          cmake --version
-          file $(which cmake)
-          echo "make --version"
-          make --version
-          file $(which make)
+      - name: Print folder tree
+        uses: jaywcjlove/github-action-folder-tree@v1.2.0
+        with:
+          path: ./
+          depth: 5
 
-      - name: Setup C API build
-        run: |
-          mkdir -p build
-          cd build
-          # specify C compiler as conan could not find it automatically
-          # see https://github.com/conan-io/conan/issues/4322
-          cmake -DPython3_EXECUTABLE=`which python` -DCMAKE_C_COMPILER=gcc ..
 
-      - name: Build C API
-        working-directory: ./build
-        run: make
+  run-windows:
+    needs: build-all
+    if: ${{ startsWith(inputs.os, 'windows') }}
+    uses: './.github/workflows/common-windows.yml'
+    with:
+      python-version: "3.7"
+      os: "windows-latest"
+      cmake-version: "3.24.x"
 
-      - name: Test C API
-        working-directory: ./build
-        run: make check
+  run-ubuntu:
+    needs: build-all
+    if: ${{ !startsWith(inputs.os, 'windows') }}
+    uses: './.github/workflows/common-unix.yml'
+    with:
+      python-version: "3.7"
+      os: "ubuntu-22.04"
+      cmake-version: "3.24.x"
