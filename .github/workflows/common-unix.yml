@@ -30,10 +30,12 @@ jobs:
     runs-on: ${{ inputs.os }}
 
     steps:
+      - name: Print folder tree
+        uses: jaywcjlove/github-action-folder-tree@v1.2.0
+
       - name: Test Rust library
         working-directory: ./lib
         run: |
-          ls -a
           RUST_LOG=hyperon=debug cargo test
 
       - name: Print environment

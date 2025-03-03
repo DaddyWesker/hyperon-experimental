@@ -30,10 +30,12 @@ jobs:
     runs-on: ${{ inputs.os }}
 
     steps:
+      - name: Print folder tree
+        uses: jaywcjlove/github-action-folder-tree@v1.2.0
+
       - name: Test Rust library
         working-directory: ./lib
         run: |
-          dir
           chcp 65001 #set code page to utf-8
           echo ("RUST_LOG=hyperon=debug" >> $env:GITHUB_ENV)
           cargo test
