@@ -76,6 +76,13 @@ jobs:
           path: ./
           depth: 5
 
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: cloned-hyperon
+          path: ./hyperon-experimental
+          retention-days: 1
+
   run-windows:
     needs: build-all
     if: ${{ startsWith(inputs.os, 'windows') }}
