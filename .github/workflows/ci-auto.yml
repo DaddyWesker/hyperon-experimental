@@ -15,7 +15,7 @@ jobs:
       python-version: "3.7"
       os: "windows-latest"
       cmake-version: "3.24.x"
-  ci-auto-ubuntu:
+  ci-auto-unix:
     uses: './.github/workflows/common.yml'
     with:
       python-version: "3.7"

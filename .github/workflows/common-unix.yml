@@ -33,6 +33,7 @@ jobs:
       - name: Test Rust library
         working-directory: ./lib
         run: |
+          ls -a
           RUST_LOG=hyperon=debug cargo test
 
       - name: Print environment
