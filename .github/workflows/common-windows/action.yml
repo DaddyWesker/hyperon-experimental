@@ -47,30 +47,30 @@ runs:
         python -c "import platform; print(platform.platform())"
         echo "conan --version"
         conan --version
-#          conan_python=$( head -1 $(where conan) | cut -c 3- )
-#          echo "conan Python: $conan_python"
-#          echo -n "conan Python platform: "
-#          $conan_python -c "import platform; print(platform.platform())"
+#        conan_python=$( head -1 $(where conan) | cut -c 3- )
+#        echo "conan Python: $conan_python"
+#        echo -n "conan Python platform: "
+#        $conan_python -c "import platform; print(platform.platform())"
         echo "conan profile show"
         conan profile show
-#               echo "gcc --version"
-#               gcc --version
-#               echo "g++ --version"
-#               g++ --version
+#        echo "gcc --version"
+#        gcc --version
+#        echo "g++ --version"
+#        g++ --version
         echo "cmake --version"
         cmake --version
-#          file $(which cmake)
-#          echo "make --version"
-#          make --version
-#          file $(which make)
+#        file $(which cmake)
+#        echo "make --version"
+#        make --version
+#        file $(which make)
       shell: bash
 
     - name: Setup C API build
       run: |
         mkdir -p build
         cd build
-      # specify C compiler as conan could not find it automatically
-      # see https://github.com/conan-io/conan/issues/4322
+        # specify C compiler as conan could not find it automatically
+        # see https://github.com/conan-io/conan/issues/4322
         cmake -DPython3_EXECUTABLE=`which python` -DCMAKE_C_COMPILER=gcc -DGIT=OFF ..
       shell: bash
 
