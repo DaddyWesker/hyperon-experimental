@@ -69,6 +69,7 @@ jobs:
       - name: Setup Conan profile
         run: |
           conan profile detect --force
+        shell: bash
 
       - name: Choose OS
         if: ${{ startsWith(inputs.os, 'windows') }}
