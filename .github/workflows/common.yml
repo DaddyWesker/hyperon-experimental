@@ -76,12 +76,6 @@ jobs:
           path: ./
           depth: 5
 
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: cloned-hyperon
-          path: ./
-          retention-days: 1
 
   run-windows:
     needs: build-all
