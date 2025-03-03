@@ -32,6 +32,8 @@ jobs:
     steps:
       - name: Print folder tree
         uses: jaywcjlove/github-action-folder-tree@v1.2.0
+        with:
+          depth: 5
 
       - name: Test Rust library
         working-directory: ./lib
