@@ -80,7 +80,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: cloned-hyperon
-          path: ./hyperon-experimental
+          path: ./
           retention-days: 1
 
   run-windows:
