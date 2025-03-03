@@ -1,0 +1,83 @@
+# This reusable workflow builds the project and tests it.
+
+# This workflow uses actions that are not certified by GitHub.  They are
+# provided by a third-party and are governed by separate terms of service,
+# privacy policy, and support documentation.
+
+name: common-windows
+
+inputs:
+  python-version:
+    description: "A version of a python interpreter to use"
+    default: "3.7"
+    required: false
+    type: string
+  os:
+    description: "A container which is used to make a build"
+    default: "windows-latest"
+    required: false
+    type: string
+  cmake-version:
+    description: "CMake version to use"
+    default: "3.24.x"
+    required: false
+    type: string
+
+jobs:
+  build-all:
+    runs-on: "windows-latest"
+
+    steps:
+      - name: Test Rust library
+        working-directory: ./lib
+        run: |
+          chcp 65001 #set code page to utf-8
+          echo ("RUST_LOG=hyperon=debug" >> $env:GITHUB_ENV)
+          cargo test
+
+      - name: Print environment
+        run: |
+               echo "ver"
+               ver
+               echo "rustc --version"
+               rustc --version
+               echo "cbindgen --version"
+               cbindgen --version
+               echo "python --version"
+               where python
+               python --version
+               python -c "import platform; print(platform.platform())"
+               echo "conan --version"
+               conan --version
+     #          conan_python=$( head -1 $(where conan) | cut -c 3- )
+     #          echo "conan Python: $conan_python"
+     #          echo -n "conan Python platform: "
+     #          $conan_python -c "import platform; print(platform.platform())"
+               echo "conan profile show"
+               conan profile show
+#               echo "gcc --version"
+#               gcc --version
+#               echo "g++ --version"
+#               g++ --version
+               echo "cmake --version"
+               cmake --version
+     #          file $(which cmake)
+     #          echo "make --version"
+     #          make --version
+     #          file $(which make)
+
+      - name: Setup C API build
+        run: |
+          mkdir -p build
+          cd build
+          # specify C compiler as conan could not find it automatically
+          # see https://github.com/conan-io/conan/issues/4322
+          cmake -DPython3_EXECUTABLE=`which python` -DCMAKE_C_COMPILER=gcc -DGIT=OFF ..
+
+      - name: Build C Api
+        working-directory: ./build
+        run: cmake --build . --config Release
+
+      - name: Test C API
+        working-directory: ./build
+        run:  cmake --build . --target check --config Release

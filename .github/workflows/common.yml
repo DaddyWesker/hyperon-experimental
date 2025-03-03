@@ -16,7 +16,7 @@ on:
         type: string
       os:
         description: "A container which is used to make a build"
-        default: "windows-latest"
+        default: "ubuntu-22.04"
         required: false
         type: string
       cmake-version:
@@ -70,26 +70,18 @@ jobs:
         run: |
           conan profile detect --force
 
-      - name: Print folder tree
-        uses: jaywcjlove/github-action-folder-tree@v1.2.0
+      - name: Choose OS
+        if: ${{ startsWith(inputs.os, 'windows') }}
+        uses: './.github/workflows/common-windows'
         with:
-          path: ./
-          depth: 5
+          python-version: "3.7"
+          os: "windows-latest"
+          cmake-version: "3.24.x"
 
-  run-windows:
-    needs: build-all
-    if: ${{ startsWith(inputs.os, 'windows') }}
-    uses: './.github/workflows/common-windows.yml'
-    with:
-      python-version: "3.7"
-      os: "windows-latest"
-      cmake-version: "3.24.x"
-
-  run-ubuntu:
-    needs: build-all
-    if: ${{ !startsWith(inputs.os, 'windows') }}
-    uses: './.github/workflows/common-unix.yml'
-    with:
-      python-version: "3.7"
-      os: "ubuntu-22.04"
-      cmake-version: "3.24.x"
+      - name: Choose OS
+        if: ${{ !startsWith(inputs.os, 'windows') }}
+        uses: './.github/workflows/common-unix'
+        with:
+          python-version: "3.7"
+          os: "ubuntu-22.04"
+          cmake-version: "3.24.x"
