@@ -70,6 +70,12 @@ jobs:
         run: |
           conan profile detect --force
 
+      - name: Print folder tree
+        uses: jaywcjlove/github-action-folder-tree@v1.2.0
+        with:
+          path: ./
+          depth: 5
+
   run-windows:
     needs: build-all
     if: ${{ startsWith(inputs.os, 'windows') }}
