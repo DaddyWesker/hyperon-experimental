@@ -96,10 +96,12 @@ jobs:
           which python3
           python3 --version
           python3 -c "import platform; print(platform.platform())"
-          echo "conan --version"
-          conan --version
+          echo "conan version"
+          conan version
           echo "conan profile show"
           conan profile show
+          echo "print cl"
+          cl
           echo "cmake --version"
           cmake --version
           file $(which cmake)
@@ -125,12 +127,8 @@ jobs:
           which python3
           python3 --version
           python3 -c "import platform; print(platform.platform())"
-          echo "conan --version"
-          conan --version
-          conan_python=$( head -1 $(which conan) | cut -c 3- )
-          echo "conan Python: $conan_python"
-          echo -n "conan Python platform: "
-          $conan_python -c "import platform; print(platform.platform())"
+          echo "conan version"
+          conan version
           echo "conan profile show"
           conan profile show
           echo "gcc --version"
