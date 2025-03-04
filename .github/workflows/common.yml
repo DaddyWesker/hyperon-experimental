@@ -117,7 +117,7 @@ jobs:
           cd build
           # specify C compiler as conan could not find it automatically
           # see https://github.com/conan-io/conan/issues/4322
-          cmake -DPython3_EXECUTABLE=`which python` -DCMAKE_C_COMPILER=gcc ${{ env.CMAKE_GIT_EXCLUDE }} ..
+          cmake -DCMAKE_C_COMPILER=gcc ${{ env.CMAKE_GIT_EXCLUDE }} ..
 
       - name: Build C API
         working-directory: ./build
