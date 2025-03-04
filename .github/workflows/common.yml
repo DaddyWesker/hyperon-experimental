@@ -100,8 +100,10 @@ jobs:
           conan version
           echo "conan profile show"
           conan profile show
-          echo "print cl"
-          cl
+          echo "gcc --version"
+          gcc --version
+          echo "g++ --version"
+          g++ --version
           echo "cmake --version"
           cmake --version
           file $(which cmake)
