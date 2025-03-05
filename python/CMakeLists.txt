@@ -37,6 +37,9 @@ if(GIT)
     find_package(ZLIB REQUIRED)
 endif()
 
+message("Hyperonpy_ZLIB_LIBRARY = ${ZLIB_LIBRARY}")
+message("Hyperonpy_OPENSSL_CRYPTO_LIBRARY = ${OPENSSL_CRYPTO_LIBRARY}")
+
 # Use the same location of the target library for each configuration of
 # multi-configuration build
 foreach(OUTPUTCONFIG ${CMAKE_CONFIGURATION_TYPES})
