@@ -37,8 +37,15 @@ if(GIT)
     find_package(ZLIB REQUIRED)
 endif()
 
-message("Hyperonpy_ZLIB_LIBRARY = ${ZLIB_LIBRARY}")
-message("Hyperonpy_OPENSSL_CRYPTO_LIBRARY = ${OPENSSL_CRYPTO_LIBRARY}")
+message("Hyperonpy_OpenSSL_INCLUDE_DIR = ${OpenSSL_INCLUDE_DIR}")
+message("Hyperonpy_OpenSSL_VERSION_STRING = ${OpenSSL_VERSION_STRING}")
+message("Hyperonpy_OpenSSL_LIBRARIES = ${OpenSSL_LIBRARIES}")
+message("Hyperonpy_OPENSSL_INCLUDE_DIR = ${OPENSSL_INCLUDE_DIR}")
+message("Hyperonpy_OPENSSL_VERSION_STRING = ${OPENSSL_VERSION_STRING}")
+message("Hyperonpy_OPENSSL_LIBRARIES = ${OPENSSL_LIBRARIES}")
+message("Hyperonpy_ZLIB_INCLUDE_DIR = ${ZLIB_INCLUDE_DIR}")
+message("Hyperonpy_ZLIB_VERSION_STRING = ${ZLIB_VERSION_STRING}")
+message("Hyperonpy_ZLIB_LIBRARIES = ${ZLIB_LIBRARIES}")
 
 # Use the same location of the target library for each configuration of
 # multi-configuration build
