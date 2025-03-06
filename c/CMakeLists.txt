@@ -74,6 +74,16 @@ if(BUILD_SHARED_LIBS)
         find_package(ZLIB REQUIRED)
     endif(GIT)
 
+    message("Hyperonс_OpenSSL_INCLUDE_DIR = ${OpenSSL_INCLUDE_DIR}")
+    message("Hyperonс_OpenSSL_VERSION_STRING = ${OpenSSL_VERSION_STRING}")
+    message("Hyperonс_OpenSSL_LIBRARIES = ${OpenSSL_LIBRARIES}")
+    message("Hyperonс_OPENSSL_INCLUDE_DIR = ${OPENSSL_INCLUDE_DIR}")
+    message("Hyperonс_OPENSSL_VERSION_STRING = ${OPENSSL_VERSION_STRING}")
+    message("Hyperonс_OPENSSL_LIBRARIES = ${OPENSSL_LIBRARIES}")
+    message("Hyperonс_ZLIB_INCLUDE_DIR = ${ZLIB_INCLUDE_DIR}")
+    message("Hyperonс_ZLIB_VERSION_STRING = ${ZLIB_VERSION_STRING}")
+    message("Hyperonс_ZLIB_LIBRARIES = ${ZLIB_LIBRARIES}")
+
     set(HYPERONC_SHARED_LIB_FILE ${CMAKE_SHARED_LIBRARY_PREFIX}hyperonc${CMAKE_SHARED_LIBRARY_SUFFIX})
     set(HYPERONC_SHARED_LIB_PATH ${HYPERONC_TARGET_DIR}/${HYPERONC_SHARED_LIB_FILE})
     set(SHARED_LIBRARY_INSTALL_PATH "${BINARY_INSTALL_PATH}/${HYPERONC_SHARED_LIB_FILE}")
@@ -113,7 +123,7 @@ if(BUILD_SHARED_LIBS)
         # These libraries are required to be linked under Windows platform as
         # they are dependencies of the Rust standard library.
         # See https://doc.rust-lang.org/reference/linkage.html#r-link.staticlib
-        target_link_libraries(hyperonc-shared INTERFACE wsock32 ws2_32 userenv ntdll bcrypt)
+        target_link_libraries(hyperonc-shared INTERFACE wsock32 ws2_32 userenv ntdll bcrypt winhttp Rpcrt4)
     endif(WIN32)
     if(GIT)
         target_link_libraries(hyperonc-shared INTERFACE OpenSSL::SSL OpenSSL::Crypto ZLIB::ZLIB)
