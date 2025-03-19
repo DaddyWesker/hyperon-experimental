@@ -31,8 +31,8 @@ on:
         type: string
 
 env:
-  CMAKE_MULTIBUILD_CONFIG: "${{ startsWith(inputs.os, 'windows') && '--config ' && inputs.build-type || '' }}"
-  CMAKE_UNIX_BUILD_TYPE: "${{ startsWith(inputs.os, 'windows') && '' || '-DCMAKE_BUILD_TYPE=' && inputs.build-type }}"
+  CMAKE_MULTIBUILD_CONFIG: "${{ startsWith(inputs.os, 'windows') && format('--config {0}', inputs.build-type) || '' }}"
+  CMAKE_UNIX_BUILD_TYPE: "${{ startsWith(inputs.os, 'windows') && '' || format('-DCMAKE_BUILD_TYPE={0}', inputs.build-type)}}"
   CMAKE_GIT_EXCLUDE: "${{ startsWith(inputs.os, 'windows') && '-DGIT=OFF' || '' }}"
 
 jobs:
