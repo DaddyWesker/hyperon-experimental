@@ -53,12 +53,12 @@ mkdir %USERPROFILE%\.local
 tar -xf %PROTOC_ZIP% -C %USERPROFILE%\.local
 del -f %PROTOC_ZIP%
 
-rem mkdir %USERPROFILE%\hyperonc
-rem cd %USERPROFILE%\hyperonc
-rem git init
-rem git remote add origin %HYPERONC_URL%
-rem git fetch --depth=1 origin %HYPERONC_REV%
-rem git reset --hard FETCH_HEAD
+mkdir %USERPROFILE%\hyperonc
+cd %USERPROFILE%\hyperonc
+git init
+git remote add origin %HYPERONC_URL%
+git fetch --depth=1 origin %HYPERONC_REV%
+git reset --hard FETCH_HEAD
 
 mkdir %USERPROFILE%\hyperonc\c\build
 cd %USERPROFILE%\hyperonc\c\build
@@ -69,4 +69,3 @@ echo current dir %cd%
 cmake %CMAKE_ARGS% ..
 cmake --build . --config Release
 cmake --build . --target check --config Release
-pause
