@@ -52,16 +52,13 @@ curl -OL https://github.com/protocolbuffers/protobuf/releases/download/v31.1/%PR
 mkdir %USERPROFILE%\.local 
 echo Protoc_zip: %PROTOC_ZIP%
 echo Current dir: %cd%
-if exist %PROTOC_ZIP% (
-    echo %PROTOC_ZIP% exists
-) else (
-    echo %PROTOC_ZIP% not exist
-)
 tar -xf %PROTOC_ZIP% -C %USERPROFILE%\.local
+unzip %PROTOC_ZIP%
 del -f %PROTOC_ZIP%
 
 mkdir %USERPROFILE%\hyperonc
 cd %USERPROFILE%\hyperonc
+echo Current dir: %cd%
 git init
 git remote add origin %HYPERONC_URL%
 git fetch --depth=1 origin %HYPERONC_REV%
@@ -69,6 +66,7 @@ git reset --hard FETCH_HEAD
 
 mkdir %USERPROFILE%\hyperonc\c\build
 cd %USERPROFILE%\hyperonc\c\build
+echo Current dir: %cd%
 
 set CMAKE_ARGS=-DBUILD_SHARED_LIBS=ON -DCMAKE_CONFIGURATION_TYPES=Release -DCMAKE_PROJECT_TOP_LEVEL_INCLUDES=%USERPROFILE%/hyperonc/conan_provider.cmake -DCMAKE_INSTALL_PREFIX=%USERPROFILE%\\.local
 echo hyperonc CMake arguments: %CMAKE_ARGS%
