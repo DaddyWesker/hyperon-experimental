@@ -17,6 +17,7 @@ classifiers = [
     "Development Status :: 2 - Pre-Alpha",
     "Operating System :: POSIX :: Linux",
     "Operating System :: MacOS :: MacOS X",
+    "Operating System :: Microsoft :: Windows"
 ]
 
 dynamic = [

@@ -1,6 +1,6 @@
 @echo off
-set HYPERONC_URL=https://github.com/trueagi-io/hyperon-experimental.git
-set HYPERONC_REV=main
+set HYPERONC_URL=https://github.com/DaddyWesker/hyperon-experimental.git
+set HYPERONC_REV=release-win
 set CIBW_BUILD=cp310-win_amd64
 
 set python_url=https://www.python.org/ftp/python/3.12.9/python-3.12.9-amd64.exe
@@ -63,9 +63,10 @@ git reset --hard FETCH_HEAD
 mkdir %USERPROFILE%\hyperonc\c\build
 cd %USERPROFILE%\hyperonc\c\build
 
-set CMAKE_ARGS=-DBUILD_SHARED_LIBS=ON -DCMAKE_CONFIGURATION_TYPES=Release -DCMAKE_PROJECT_TOP_LEVEL_INCLUDES=%USERPROFILE%/hyperonc/conan_provider.cmake
+set CMAKE_ARGS=-DBUILD_SHARED_LIBS=ON -DCMAKE_CONFIGURATION_TYPES=Release -DCMAKE_PROJECT_TOP_LEVEL_INCLUDES=%USERPROFILE%/hyperonc/conan_provider.cmake -DCMAKE_INSTALL_PREFIX=%USERPROFILE%\\.local
 echo hyperonc CMake arguments: %CMAKE_ARGS%
 echo current dir %cd%
 cmake %CMAKE_ARGS% ..
 cmake --build . --config Release
 cmake --build . --target check --config Release
+cmake --build . --target install --config Release
