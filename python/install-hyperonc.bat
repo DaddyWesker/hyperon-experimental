@@ -50,6 +50,13 @@ rem protobuf-compiler (v3) is required by Das
 set PROTOC_ZIP=protoc-31.1-win64.zip
 curl -OL https://github.com/protocolbuffers/protobuf/releases/download/v31.1/%PROTOC_ZIP%
 mkdir %USERPROFILE%\.local 
+echo Protoc_zip: %PROTOC_ZIP%
+echo Current dir: %cd%
+if exist %PROTOC_ZIP% (
+    echo %PROTOC_ZIP% exists
+) else (
+    echo %PROTOC_ZIP% not exist
+)
 tar -xf %PROTOC_ZIP% -C %USERPROFILE%\.local
 del -f %PROTOC_ZIP%
 
