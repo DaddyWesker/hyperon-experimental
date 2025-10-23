@@ -55,8 +55,8 @@ echo Current dir: %cd%
 tar -xf %PROTOC_ZIP% -C %USERPROFILE%\.local
 del -f %PROTOC_ZIP%
 
-mkdir %USERPROFILE%\hyperonc
-cd %USERPROFILE%\hyperonc
+mkdir %USERPROFILE%\\hyperonc
+cd %USERPROFILE%\\hyperonc
 echo Current dir (should be hyperonc): %cd%
 git init
 git remote add origin %HYPERONC_URL%
