@@ -53,12 +53,10 @@ mkdir %USERPROFILE%\.local
 echo Protoc_zip: %PROTOC_ZIP%
 echo Current dir: %cd%
 tar -xf %PROTOC_ZIP% -C %USERPROFILE%\.local
-unzip %PROTOC_ZIP%
 del -f %PROTOC_ZIP%
 
 mkdir %USERPROFILE%\hyperonc
 cd %USERPROFILE%\hyperonc
-echo Current dir: %cd%
 git init
 git remote add origin %HYPERONC_URL%
 git fetch --depth=1 origin %HYPERONC_REV%
@@ -66,11 +64,9 @@ git reset --hard FETCH_HEAD
 
 mkdir %USERPROFILE%\hyperonc\c\build
 cd %USERPROFILE%\hyperonc\c\build
-echo Current dir: %cd%
 
-set CMAKE_ARGS=-DBUILD_SHARED_LIBS=ON -DCMAKE_CONFIGURATION_TYPES=Release -DCMAKE_PROJECT_TOP_LEVEL_INCLUDES=%USERPROFILE%/hyperonc/conan_provider.cmake -DCMAKE_INSTALL_PREFIX=%USERPROFILE%\\.local
+set CMAKE_ARGS=-DBUILD_SHARED_LIBS=ON -DCMAKE_BUILD_TYPE=Release -DCMAKE_CONFIGURATION_TYPES=Release -DCMAKE_PROJECT_TOP_LEVEL_INCLUDES=%USERPROFILE%/hyperonc/conan_provider.cmake -DCMAKE_INSTALL_PREFIX=%USERPROFILE%\\.local
 echo hyperonc CMake arguments: %CMAKE_ARGS%
-echo current dir %cd%
 cmake %CMAKE_ARGS% ..
 cmake --build . --config Release
 cmake --build . --target check --config Release
