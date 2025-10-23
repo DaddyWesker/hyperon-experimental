@@ -34,6 +34,8 @@ IF NOT "%1"=="" (
 echo hyperonc repository URL: %HYPERONC_URL%
 echo hyperonc revision: %HYPERONC_REV%
 
+echo userprofile env: %USERPROFILE%
+
 set CARGO_HOME=%USERPROFILE%\\.cargo
 set RUSTUP_HOME=%USERPROFILE%\\.rustup
 curl --proto "=https" --tlsv1.2 -sSf https://static.rust-lang.org/rustup/dist/x86_64-pc-windows-msvc/rustup-init.exe > %TEMP%/rustup-init.exe
