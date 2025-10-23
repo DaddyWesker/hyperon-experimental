@@ -65,7 +65,7 @@ git reset --hard FETCH_HEAD
 mkdir %USERPROFILE%\hyperonc\c\build
 cd %USERPROFILE%\hyperonc\c\build
 
-set CMAKE_ARGS=-DBUILD_SHARED_LIBS=ON -DCMAKE_BUILD_TYPE=Release -DCMAKE_CONFIGURATION_TYPES=Release -DCMAKE_PROJECT_TOP_LEVEL_INCLUDES=%USERPROFILE%/hyperonc/conan_provider.cmake -DCMAKE_INSTALL_PREFIX=%USERPROFILE%\\.local
+set CMAKE_ARGS=-DBUILD_SHARED_LIBS=ON -DCMAKE_CONFIGURATION_TYPES=Release -DCMAKE_PROJECT_TOP_LEVEL_INCLUDES=%USERPROFILE%/hyperonc/conan_provider.cmake -DCMAKE_INSTALL_PREFIX=%USERPROFILE%\\.local
 echo hyperonc CMake arguments: %CMAKE_ARGS%
 cmake %CMAKE_ARGS% ..
 cmake --build . --config Release
