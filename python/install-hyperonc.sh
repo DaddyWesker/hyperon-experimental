@@ -55,7 +55,9 @@ case "$ARCH" in
     *)          ARCH_TAG=$ARCH
 esac
 PROTOC_ZIP=protoc-31.1-$OS_TAG-$ARCH_TAG.zip
-case "$OS" in MSYS_NT*) PROTOC_ZIP=protoc-31.1-win64.zip
+case "$OS" in MSYS_NT*) 
+    PROTOC_ZIP=protoc-31.1-win64.zip
+esac
 curl -OL https://github.com/protocolbuffers/protobuf/releases/download/v31.1/$PROTOC_ZIP
 unzip -o $PROTOC_ZIP -d ${HOME}/.local
 rm -f $PROTOC_ZIP
