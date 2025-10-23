@@ -48,6 +48,7 @@ jobs:
           CIBW_BEFORE_ALL: "./python/install-hyperonc.bat -u https://github.com/DaddyWesker/hyperon-experimental.git -r release-win"
         with:
           package-dir: ./python
+        shell: pwsh
 
       - name: Build wheels on ${{ matrix.os }}
         if: ${{ startsWith(matrix.os, 'ubuntu') }}
