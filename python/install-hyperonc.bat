@@ -1,9 +1,6 @@
 @echo off
 set HYPERONC_URL=https://github.com/DaddyWesker/hyperon-experimental.git
 set HYPERONC_REV=release-win
-set CIBW_BUILD=cp310-win_amd64
-
-set python_url=https://www.python.org/ftp/python/3.12.9/python-3.12.9-amd64.exe
 
 :loop
 IF NOT "%1"=="" (
