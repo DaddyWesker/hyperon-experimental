@@ -6,6 +6,10 @@ class HyperonpyRecipe(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
     generators = "CMakeDeps", "CMakeToolchain"
 
+    def configure(self):
+        if self.settings.compiler == "msvc":
+            self.settings.compiler.runtime = "dynamic"
+
     def requirements(self):
         self.requires("optional-lite/3.5.0")
         self.requires("pybind11/2.10.1")
