@@ -51,6 +51,8 @@ curl -OL https://github.com/protocolbuffers/protobuf/releases/download/v31.1/%PR
 mkdir %USERPROFILE%\.local 
 echo Protoc_zip: %PROTOC_ZIP%
 echo Current dir: %cd%
+cd ..
+echo Current dir: %cd%
 tar -xf %PROTOC_ZIP% -C %USERPROFILE%\.local
 del -f %PROTOC_ZIP%
 
