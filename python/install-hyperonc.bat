@@ -56,6 +56,7 @@ del -f %PROTOC_ZIP%
 
 mkdir %USERPROFILE%\\hyperonc
 cd %USERPROFILE%\\hyperonc
+echo userprofile: %USERPROFILE%
 echo Current dir (should be hyperonc): %cd%
 git init
 git remote add origin %HYPERONC_URL%
