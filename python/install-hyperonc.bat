@@ -31,45 +31,43 @@ IF NOT "%1"=="" (
 echo hyperonc repository URL: %HYPERONC_URL%
 echo hyperonc revision: %HYPERONC_REV%
 
-echo TEMP env: %TEMP%
+echo TEMP env: %CD:~0,3%
 
-set CARGO_HOME=%TEMP%\\.cargo
-set RUSTUP_HOME=%TEMP%\\.rustup
-curl --proto "=https" --tlsv1.2 -sSf https://static.rust-lang.org/rustup/dist/x86_64-pc-windows-msvc/rustup-init.exe > %TEMP%/rustup-init.exe
-call %TEMP%/rustup-init.exe -y
-del %TEMP%\rustup-init.exe
-set PATH=%PATH%;%TEMP%\\.cargo\\bin
+set CARGO_HOME=%CD:~0,3%\\.cargo
+set RUSTUP_HOME=%CD:~0,3%\\.rustup
+curl --proto "=https" --tlsv1.2 -sSf https://static.rust-lang.org/rustup/dist/x86_64-pc-windows-msvc/rustup-init.exe > %CD:~0,3%/rustup-init.exe
+call %CD:~0,3%/rustup-init.exe -y
+del %CD:~0,3%\rustup-init.exe
+set PATH=%PATH%;%CD:~0,3%\\.cargo\\bin
 cargo install cbindgen
 
 python -m pip install cmake==3.24 conan==2.19.1 pip==23.1.2
-set PATH=%PATH%;%TEMP%\\.local\\bin
+set PATH=%PATH%;%CD:~0,3%\\.local\\bin
 conan profile detect --force
 
 rem protobuf-compiler (v3) is required by Das
 set PROTOC_ZIP=protoc-31.1-win64.zip
 curl -OL https://github.com/protocolbuffers/protobuf/releases/download/v31.1/%PROTOC_ZIP%
-mkdir %TEMP%\.local 
+mkdir %CD:~0,3%\.local 
 echo Protoc_zip: %PROTOC_ZIP%
 echo Current dir: %cd%
-cd ..
-echo Current dir: %cd%
-tar -xf %PROTOC_ZIP% -C %TEMP%\.local
+tar -xf %PROTOC_ZIP% -C %CD:~0,3%\.local
 del -f %PROTOC_ZIP%
 
-mkdir %TEMP%\\hyperonc
-cd %TEMP%\\hyperonc
-echo TEMP: %TEMP%
+mkdir %CD:~0,3%\\hyperonc
+cd %CD:~0,3%\\hyperonc
+echo CD:~0,3: %CD:~0,3%
 echo Current dir (should be hyperonc): %cd%
 git init
 git remote add origin %HYPERONC_URL%
 git fetch --depth=1 origin %HYPERONC_REV%
 git reset --hard FETCH_HEAD
 
-mkdir %TEMP%\hyperonc\c\build
-cd %TEMP%\hyperonc\c\build
+mkdir %CD:~0,3%\hyperonc\c\build
+cd %CD:~0,3%\hyperonc\c\build
 echo Current dir (should be hyperonc/c/build): %cd%
 
-set CMAKE_ARGS=-DBUILD_SHARED_LIBS=ON -DCMAKE_CONFIGURATION_TYPES=Release -DCMAKE_PROJECT_TOP_LEVEL_INCLUDES=%TEMP%/hyperonc/conan_provider.cmake -DCMAKE_INSTALL_PREFIX=%TEMP%\\.local
+set CMAKE_ARGS=-DBUILD_SHARED_LIBS=ON -DCMAKE_CONFIGURATION_TYPES=Release -DCMAKE_PROJECT_TOP_LEVEL_INCLUDES=%CD:~0,3%/hyperonc/conan_provider.cmake -DCMAKE_INSTALL_PREFIX=%CD:~0,3%\\.local
 echo hyperonc CMake arguments: %CMAKE_ARGS%
 cmake %CMAKE_ARGS% ..
 cmake --build . --config Release
