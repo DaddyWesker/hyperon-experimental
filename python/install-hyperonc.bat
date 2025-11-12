@@ -31,16 +31,9 @@ IF NOT "%1"=="" (
 echo hyperonc repository URL: %HYPERONC_URL%
 echo hyperonc revision: %HYPERONC_REV%
 
-set TEMP_FOLDER=""
-
-SETLOCAL ENABLEEXTENSIONS
-IF DEFINED RUNNER_TEMP (
-        set TEMP_FOLDER=%RUNNER_TEMP%
-        set PATH=%PATH%;%TEMP_FOLDER%\\.local\\lib\\cmake\\hyperonc
-    ) 
-    ELSE (
-        set TEMP_FOLDER=%USERPROFILE%
-    )
+IF NOT "%RUNNER_TEMP%"=="" set TEMP_FOLDER=%RUNNER_TEMP%
+IF NOT "%RUNNER_TEMP%"=="" set PATH=%PATH%;%TEMP_FOLDER%\\.local\\lib\\cmake\\hyperonc
+IF "%RUNNER_TEMP%"=="" set TEMP_FOLDER=%USERPROFILE%
 
 echo TEMP_FOLDER env: %TEMP_FOLDER%
 
@@ -83,4 +76,3 @@ cmake %CMAKE_ARGS% ..
 cmake --build . --config Release
 cmake --build . --target check --config Release
 cmake --build . --target install --config Release
-ENDLOCAL
