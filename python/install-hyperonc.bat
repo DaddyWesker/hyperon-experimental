@@ -32,8 +32,9 @@ echo hyperonc repository URL: %HYPERONC_URL%
 echo hyperonc revision: %HYPERONC_REV%
 
 IF NOT "%RUNNER_TEMP%"=="" set TEMP_FOLDER=%RUNNER_TEMP%
-IF NOT "%RUNNER_TEMP%"=="" set PATH=%PATH%;%TEMP_FOLDER%\\.local\\lib\\cmake\\hyperonc
-IF "%RUNNER_TEMP%"=="" set TEMP_FOLDER=%USERPROFILE%
+IF "%RUNNER_TEMP%"=="" set TEMP_FOLDER=C:\\Users\\DaddyWesker\\Desktop\\Work\\SingularityNet\\Metta\\dw_fork
+
+set CMAKE_MODULE_PATH=%CMAKE_MODULE_PATH%;%TEMP_FOLDER%\\.local\\lib\\cmake\\hyperonc
 
 echo TEMP_FOLDER env: %TEMP_FOLDER%
 
