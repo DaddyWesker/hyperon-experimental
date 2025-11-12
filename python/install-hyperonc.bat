@@ -33,6 +33,7 @@ echo hyperonc revision: %HYPERONC_REV%
 
 set TEMP_FOLDER=""
 
+SETLOCAL ENABLEEXTENSIONS
 IF DEFINED RUNNER_TEMP (
         set TEMP_FOLDER=%RUNNER_TEMP%
         set PATH=%PATH%;%TEMP_FOLDER%\\.local\\lib\\cmake\\hyperonc
@@ -82,3 +83,4 @@ cmake %CMAKE_ARGS% ..
 cmake --build . --config Release
 cmake --build . --target check --config Release
 cmake --build . --target install --config Release
+ENDLOCAL
