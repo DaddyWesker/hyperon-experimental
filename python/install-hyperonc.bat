@@ -71,7 +71,8 @@ mkdir %TEMP_FOLDER%\hyperonc\c\build
 cd %TEMP_FOLDER%\hyperonc\c\build
 echo Current dir (should be hyperonc/c/build): %cd%
 
-set CMAKE_ARGS=-DBUILD_SHARED_LIBS=ON -DCMAKE_CONFIGURATION_TYPES=Release -DCMAKE_PROJECT_TOP_LEVEL_INCLUDES=%TEMP_FOLDER%/hyperonc/conan_provider.cmake -DCMAKE_INSTALL_PREFIX=%TEMP_FOLDER%\\.local
+set CMAKE_ARGS=-DBUILD_SHARED_LIBS=ON -DCMAKE_CONFIGURATION_TYPES=Release -DCMAKE_PROJECT_TOP_LEVEL_INCLUDES=%TEMP_FOLDER%/hyperonc/conan_provider.cmake 
+rem -DCMAKE_INSTALL_PREFIX=%TEMP_FOLDER%\\.local
 echo hyperonc CMake arguments: %CMAKE_ARGS%
 cmake %CMAKE_ARGS% ..
 cmake --build . --config Release
