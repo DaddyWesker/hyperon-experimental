@@ -32,11 +32,7 @@ echo hyperonc repository URL: %HYPERONC_URL%
 echo hyperonc revision: %HYPERONC_REV%
 
 IF NOT "%RUNNER_TEMP%"=="" set TEMP_FOLDER=%RUNNER_TEMP%
-IF "%RUNNER_TEMP%"=="" set TEMP_FOLDER=C:\\Users\\DaddyWesker\\Desktop\\Work\\SingularityNet\\Metta\\dw_fork
-
-set CMAKE_MODULE_PATH=%CMAKE_MODULE_PATH%;%TEMP_FOLDER%\\.local\\lib\\cmake\\hyperonc
-
-echo TEMP_FOLDER env: %TEMP_FOLDER%
+IF "%RUNNER_TEMP%"=="" set TEMP_FOLDER=%USERPROFILE%
 
 set CARGO_HOME=%TEMP_FOLDER%\\.cargo
 set RUSTUP_HOME=%TEMP_FOLDER%\\.rustup
@@ -54,14 +50,11 @@ rem protobuf-compiler (v3) is required by Das
 set PROTOC_ZIP=protoc-31.1-win64.zip
 curl -OL https://github.com/protocolbuffers/protobuf/releases/download/v31.1/%PROTOC_ZIP%
 mkdir %TEMP_FOLDER%\.local 
-echo Protoc_zip: %TEMP_FOLDER%
-echo Current dir: %cd%
 tar -xf %PROTOC_ZIP% -C %TEMP_FOLDER%\.local
 del -f %PROTOC_ZIP%
 
 mkdir %TEMP_FOLDER%\\hyperonc
 cd %TEMP_FOLDER%\\hyperonc
-echo Current dir (should be hyperonc): %cd%
 git init
 git remote add origin %HYPERONC_URL%
 git fetch --depth=1 origin %HYPERONC_REV%
@@ -69,10 +62,16 @@ git reset --hard FETCH_HEAD
 
 mkdir %TEMP_FOLDER%\hyperonc\c\build
 cd %TEMP_FOLDER%\hyperonc\c\build
-echo Current dir (should be hyperonc/c/build): %cd%
 
-set CMAKE_ARGS=-DBUILD_SHARED_LIBS=ON -DCMAKE_CONFIGURATION_TYPES=Release -DCMAKE_PROJECT_TOP_LEVEL_INCLUDES=%TEMP_FOLDER%/hyperonc/conan_provider.cmake 
-rem -DCMAKE_INSTALL_PREFIX=%TEMP_FOLDER%\\.local
+rem if this script works on github workflow, it is crucial for cmake to install in the defauls installation folder
+rem otherwise it will fail. On the local machine it could be crucial to set install folder manually since it tries
+rem to install into C:/ProgramFiles... which could be restricted and script will fail. Because of that cmake args 
+rem will or will not contain CMAKE_INSTALL_PREFIX argument. 
+
+set CMAKE_ARGS=-DBUILD_SHARED_LIBS=ON -DCMAKE_CONFIGURATION_TYPES=Release -DCMAKE_PROJECT_TOP_LEVEL_INCLUDES=%TEMP_FOLDER%/hyperonc/conan_provider.cmake
+
+IF "%RUNNER_TEMP%"=="" set CMAKE_ARGS=set CMAKE_ARGS=-DBUILD_SHARED_LIBS=ON -DCMAKE_CONFIGURATION_TYPES=Release -DCMAKE_PROJECT_TOP_LEVEL_INCLUDES=%TEMP_FOLDER%/hyperonc/conan_provider.cmake -DCMAKE_INSTALL_PREFIX=%TEMP_FOLDER%\\.local
+
 echo hyperonc CMake arguments: %CMAKE_ARGS%
 cmake %CMAKE_ARGS% ..
 cmake --build . --config Release
